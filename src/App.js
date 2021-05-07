@@ -1,6 +1,7 @@
 import "./App.css";
 import React, { Component } from "react";
 import { CardList } from "./components/card-list/card-list.component";
+import { SearchBox } from "./components/search-box/search-box.componenent";
 
 class App extends Component {
   constructor() {
@@ -19,27 +20,20 @@ class App extends Component {
 
   componentDidMount() {
     fetch("https://jsonplaceholder.typicode.com/users")
-      .then(response => response.json())
-      .then(users => {
+      .then((response) => response.json())
+      .then((users) => {
         this.setState({ monsters: users });
       });
   }
 
   render() {
     const { monsters, searchField } = this.state;
-    const filteredMonsters = monsters.filter(monster =>
+    const filteredMonsters = monsters.filter((monster) =>
       monster.name.toLowerCase().includes(searchField.toLowerCase())
     );
     return (
       <div className="App">
-        <input
-          type="search"
-          value={this.state.searchField}
-          placeholder="search monsters"
-          // setState is an asynchronous function therefore we must add a callback to it
-          // afterward if we want to use its value right the way
-          onChange={e => this.setState({ searchField: e.target.value })}
-        />
+        <SearchBox />
         <CardList monsters={filteredMonsters} />
       </div>
     );
